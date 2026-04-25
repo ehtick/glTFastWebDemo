@@ -171,7 +171,7 @@ Note: wait for Unity player to finish initializing before loading something.
 			}
 		}
 
-		globals.onModelLoaded = function() {
+		globals.onModelLoaded = function(success) {
 			document.getElementById("loader").style.display = 'none';
 		}
 
