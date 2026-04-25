@@ -175,6 +175,14 @@ Note: wait for Unity player to finish initializing before loading something.
 			document.getElementById("loader").style.display = 'none';
 		}
 
+		globals.updateStopWatch = function(duration, frameCount, averageFrameTime, maxFrameTime, minFrameTime) {
+			if(frameCount > 0) {
+				console.log(`time ${duration.toFixed(2)} ms (fps avg: ${averageFrameTime.toFixed(2)} ms min: ${minFrameTime.toFixed(2)} ms max: ${maxFrameTime.toFixed(2)} ms)`);
+			} else {
+				console.log(`time ${duration.toFixed(2)}`);
+			}
+		}
+
 		globals.buttons.addEventListener('drop', (event) => {
           event.preventDefault();
           globals.drop(event);
