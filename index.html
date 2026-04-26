@@ -8,7 +8,7 @@
 </head>
 <body>
 <header>
-	<h1><a href="#"><img src="gltf.svg" alt="glTF" style="vertical-align:middle; height: 2em; filter: brightness(80%);"/> Viewer</a></h1>
+	<h1><a href="#"><img src="gltf.svg" class="gltf-logo" alt="glTF" style="vertical-align:middle;"/> Viewer</a></h1>
 	<span class="separator"> • </span>
 	<a  class="item" href="https://github.com/atteneder/glTFastWebDemo/issues/new">Support & Feedback</a>
 	<span class="separator"> • </span>
@@ -26,7 +26,7 @@ Note: wait for Unity player to finish initializing before loading something.
 </header>
 <main>
 	<div id="open" class="overlay open">
-		<div class="drop"><p><img src="gltf.svg" alt="glTF" style="height: 2em; filter: brightness(80%);"/><br />Drop here</p></div>
+		<div class="drop"><p><img class="gltf-logo" src="gltf.svg" alt="glTF"/><br />Drop here</p></div>
 		<section id="buttons" class="buttons">
 		<button class="open-file" type="button">📂 File</button>
 		<div class="url">
@@ -111,6 +111,7 @@ Note: wait for Unity player to finish initializing before loading something.
 	function init () {
 
 		window.addEventListener("dragover",function(e) { e.preventDefault(); },false);
+		window.addEventListener("dragleave",function(e) { e.preventDefault(); },false);
         window.addEventListener("drop",function(e) { e.preventDefault(); },false);
 
 		var globals = {};
@@ -171,6 +172,18 @@ Note: wait for Unity player to finish initializing before loading something.
 			}
 		}
 
+		globals.dragover = function(event) {
+			event.preventDefault();
+			console.log('dragover');
+			document.getElementById("open").classList.add('dragover');
+		}
+
+		globals.dragleave = function(event) {
+			event.preventDefault();
+			console.log('dragleave');
+			document.getElementById("open").classList.remove('dragover');
+		}
+
 		globals.onModelLoaded = function(success) {
 			document.getElementById("loader").style.display = 'none';
 		}
@@ -186,6 +199,14 @@ Note: wait for Unity player to finish initializing before loading something.
 		globals.buttons.addEventListener('drop', (event) => {
           event.preventDefault();
           globals.drop(event);
+        }, false);
+		globals.buttons.addEventListener('dragover', (event) => {
+          event.preventDefault();
+          globals.dragover(event);
+        }, false);
+		globals.buttons.addEventListener('dragleave', (event) => {
+          event.preventDefault();
+          globals.dragleave(event);
         }, false);
 
 		window.globals = globals;

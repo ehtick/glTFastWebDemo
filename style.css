@@ -32,6 +32,11 @@ main {
 	position: relative;
 }
 
+.gltf-logo {
+	height: 2em;
+	filter: brightness(80%);
+}
+
 .overlay {
 	z-index: 1;
 	pointer-events:none;
@@ -97,6 +102,15 @@ main {
 
 .open div.drop {
 	border: #eee dashed;
+}
+
+.open.dragover div.drop {
+	border-color: #bbb;
+	color: #888;
+}
+
+.open.dragover img.gltf-logo {
+	filter: brightness(60%);
 }
 
 .open button {
