@@ -118,6 +118,9 @@ Note: wait for Unity player to finish initializing before loading something.
 		globals.viewer1 = document.getElementById("glTFast").contentWindow.viewer;
 		globals.formUrl = document.getElementById("formUrl");
 		globals.buttons = document.getElementById("buttons");
+		globals.open = document.getElementById("open");
+		globals.loader = document.getElementById("loader");
+		globals.hasContent = false;
 
 		globals.readyCount = 1;
 
@@ -175,17 +178,30 @@ Note: wait for Unity player to finish initializing before loading something.
 		globals.dragover = function(event) {
 			event.preventDefault();
 			console.log('dragover');
-			document.getElementById("open").classList.add('dragover');
+			if(globals.hasContent) {
+				globals.open.style.removeProperty('display');
+			}
+			globals.open.classList.add('dragover');
 		}
 
 		globals.dragleave = function(event) {
 			event.preventDefault();
 			console.log('dragleave');
-			document.getElementById("open").classList.remove('dragover');
+			if(globals.hasContent) {
+				globals.open.style.display = 'none';
+			}
+			globals.open.classList.remove('dragover');
 		}
 
 		globals.onModelLoaded = function(success) {
-			document.getElementById("loader").style.display = 'none';
+			globals.loader.style.display = 'none';
+			globals.hasContent = success;
+			if(success) {
+				console.info('Loaded glTF');
+			} else {
+				globals.open.style.removeProperty('display');
+				console.error('Loading glTF failed!');
+			}
 		}
 
 		globals.updateStopWatch = function(duration, frameCount, averageFrameTime, maxFrameTime, minFrameTime) {
@@ -217,8 +233,8 @@ Note: wait for Unity player to finish initializing before loading something.
 	function loadGltf( url ) {
 		console.debug(`Loading ${url}`)
 
-		document.getElementById("open").style.display = 'none';
-		document.getElementById("loader").style.display = 'flex';
+		globals.open.style.display = 'none';
+		globals.loader.style.display = 'flex';
 
 		if(window.globals.readyCount>0) {
 			console.info('viewer not ready');
